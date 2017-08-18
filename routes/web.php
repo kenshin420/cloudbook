@@ -15,6 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/haga', function () {
-    return view('haga');
-});
+
+Route::get('/got', [
+  'middleware' => ['auth'],
+  'uses' => function () {
+   echo "You are allowed to view this page!";
+}]);
+
+Route::get('/profile/{username}', 'ProfileController@profile');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('books', 'BookController');

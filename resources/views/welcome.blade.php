@@ -3,7 +3,8 @@
 <title>Cloud BookShelf</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="{{asset('css/w3.css')}}"/>    
+<link rel="stylesheet" type="text/css" href="{{asset('css/w3.css')}}"/>
+<link href="{{ asset('css/app.css') }}" rel="stylesheet">    
 <!--link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"-->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -20,7 +21,7 @@ body {font-family: "Lato", sans-serif}
     <a href="#" class="w3-bar-item w3-button w3-padding-large">HOME</a>
     <a href="#band" class="w3-bar-item w3-button w3-padding-large w3-hide-small">ABOUT</a>
     <a href="#tour" class="w3-bar-item w3-button w3-padding-large w3-hide-small">BOOKS</a>
-    <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hide-small">LOGIN</a>
+    @if(Auth::guest())<a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hide-small">LOGIN</a>@endif
     <div class="w3-dropdown-hover w3-hide-small">
       <button class="w3-padding-large w3-button" title="More">MORE <i class="fa fa-caret-down"></i></button>     
       <div class="w3-dropdown-content w3-bar-block w3-card-4">
@@ -28,7 +29,38 @@ body {font-family: "Lato", sans-serif}
         <a href="#" class="w3-bar-item w3-button">Extras</a>
         <a href="#" class="w3-bar-item w3-button">Media</a>
       </div>
-    </div>
+      </div>
+
+    <div class="w3-right w3-padding-large">
+                        <!-- Authentication Links -->
+                        @if (Auth::guest())
+                            <!--a class="w3-button" href="{{ route('login') }}">LOGIN</a-->
+                            <a class="w3-right w3-bar-item w3-button w3-padding-large w3-hide-small" href="{{ route('register') }}">New?  Register Here</a>
+                        @else
+                        <a href="#" class="w3-bar-item"></a> 
+                        <div class="w3-dropdown-hover" style="padding-right: 48px" >
+    <button class="w3-button w3-black">{{ Auth::user()->name }}</button>
+    <div class="w3-dropdown-content w3-bar-block w3-border">
+                <div><a href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+                    class="w3-bar-item w3-button">
+                    Logout
+                      </a> 
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                              {{ csrf_field() }}
+                </form>
+                      </div>
+                      <a href="/profile/{{ Auth::user()->username }}" class="w3-bar-item w3-button">My Profile</a>
+                       <a href="/books/create" class="w3-bar-item w3-button">Upload Books</a>
+                       <a href="/books" class="w3-bar-item w3-button">Browse Books</a>
+                </div>
+              </div>
+                            </div>
+                                </div>
+
+                        @endif
+                    </div>  
+                      
     <!--a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a-->
   </div>
 </div>
@@ -55,23 +87,22 @@ body {font-family: "Lato", sans-serif}
 
   <!-- The Band Section -->
   <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
-    <h2 class="w3-wide">THE BAND</h2>
-    <p class="w3-opacity"><i>We love music</i></p>
-    <p class="w3-justify">We have created a fictional band website. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-      ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur
-      adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <h2 class="w3-wide">About Cloud BookShelf</h2>
+    <p class="w3-opacity"><i>Books stored on the cloud</i></p>
+    <p class="w3-justify">Upload your books, share them with others. Write reviews. Download the one's you want to read
+    offline. Build your personal library and read your pdfs wherever you like. Everything's possible here in CloudBookShelf.</p>
     <div class="w3-row w3-padding-32">
       <div class="w3-third">
-        <p>Name</p>
-        <img src="/w3images/bandmember.jpg" class="w3-round w3-margin-bottom" alt="Random Name" style="width:60%">
+        <p></p>
+        <img src="/w3images/bandmember.jpg" class="w3-round w3-margin-bottom" alt="" style="width:60%">
       </div>
       <div class="w3-third">
-        <p>Name</p>
-        <img src="/w3images/bandmember.jpg" class="w3-round w3-margin-bottom" alt="Random Name" style="width:60%">
+        <p></p>
+        <img src="/w3images/bandmember.jpg" class="w3-round w3-margin-bottom" alt="" style="width:60%">
       </div>
       <div class="w3-third">
-        <p>Name</p>
-        <img src="/w3images/bandmember.jpg" class="w3-round" alt="Random Name" style="width:60%">
+        <p></p>
+        <img src="/w3images/bandmember.jpg" class="w3-round" alt="" style="width:60%">
       </div>
     </div>
   </div>
@@ -79,13 +110,13 @@ body {font-family: "Lato", sans-serif}
   <!-- The Tour Section -->
   <div class="w3-black" id="tour">
     <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
-      <h2 class="w3-wide w3-center">TOUR DATES</h2>
-      <p class="w3-opacity w3-center"><i>Remember to book your tickets!</i></p><br>
+      <h2 class="w3-wide w3-center">BOOKS</h2>
+      <p class="w3-opacity w3-center"><i>You may like:</i></p><br>
 
       <ul class="w3-ul w3-border w3-white w3-text-grey">
-        <li class="w3-padding">September <span class="w3-tag w3-red w3-margin-left">Sold out</span></li>
-        <li class="w3-padding">October <span class="w3-tag w3-red w3-margin-left">Sold out</span></li>
-        <li class="w3-padding">November <span class="w3-badge w3-right w3-margin-right">3</span></li>
+        <li class="w3-padding">Treasure Island <span class="w3-tag w3-red w3-margin-left">Sold out</span></li>
+        <li class="w3-padding">The adventures of Tom Sawyer <span class="w3-tag w3-red w3-margin-left">Sold out</span></li>
+        <li class="w3-padding">Pinoccio <span class="w3-badge w3-right w3-margin-right">3</span></li>
       </ul>
 
       <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
@@ -140,7 +171,8 @@ body {font-family: "Lato", sans-serif}
     </div>
   </div-->
 
-  <!-- The Contact Section -->
+  <!-- The login Section -->
+  @if (Auth::guest())
   <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
     <h2 class="w3-wide">LOGIN</h2>
     <!--p class="w3-opacity w3-center"><i>Fan? Drop a note!</i></p-->
@@ -148,26 +180,47 @@ body {font-family: "Lato", sans-serif}
     <div class="w3-row w3-padding-32">
       
       <div class="w3-container">
-        <form action="/action_page.php" target="_blank">
-        
+        <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+        {{ csrf_field() }}
           <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
             <div class="w3-half">
-              <input class="w3-input w3-border" type="text" placeholder="Email" required name="Email">
+              <input placeholder="Email" id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+              @if ($errors->has('email'))
+                  <span class="help-block">
+                      <strong>{{ $errors->first('email') }}</strong>
+                  </span>
+              @endif
             </div>
             </div>
-            <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <div class="w3-row-padding form-group{{ $errors->has('password') ? ' has-error' : '' }}" style="margin:0 -16px 8px -16px">
             <div class="w3-half">
-              <input class="w3-input w3-border" type="password" placeholder="Password" required name="Password">
+              <input placeholder="Password" id="password" type="password" class="form-control" name="password" required>
+              @if ($errors->has('password'))
+                  <span class="help-block">
+                      <strong>{{ $errors->first('password') }}</strong>
+                  </span>
+             @endif
             </div>
           </div>
-           
+           <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
           
           <button class="w3-button w3-black w3-section w3-center" type="submit">LOGIN</button>
         </form>
       </div>
+      <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    Forgot Your Password?
+                                </a>
     </div>
   </div>
-  
+  @endif
 <!-- End Page Content -->
 </div>
 <!-- Add Google Maps -->

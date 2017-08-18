@@ -47,8 +47,12 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        Validator::extend('without_spaces', function($attr, $value){
+            return preg_match('/^\S*$/u', $value);
+});
         return Validator::make($data, [
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:32|without_spaces|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -64,6 +68,7 @@ class RegisterController extends Controller
     {
         return User::create([
             'name' => $data['name'],
+            'username' => $data['username'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
