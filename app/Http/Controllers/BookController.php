@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use App\Book;
 use Auth;
+use File;
 use Illuminate\Support\Facades\Input;  
 use Illuminate\Support\Facades\Storage;
 
@@ -39,6 +40,7 @@ class BookController extends Controller
         $request->file('book')->move(base_path() . '/public/pdfjs/web/bookstore', $filename.'.'.$request->file('book')->getClientOriginalExtension());
         }
         $book->save();
+        return redirect('/books');
     }
 
     
@@ -64,6 +66,11 @@ class BookController extends Controller
     
     public function destroy($id)
     {
-        //
+        //Book::destroy($id);  
+        $book = Book::findOrFail($id);
+        File::delete(base_path().'/public/pdfjs/web/bookstore/'.$book->filepath.'.pdf'); 
+
+        $book->delete(); 
+        return redirect('/books');
     }
 }
