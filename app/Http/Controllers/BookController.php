@@ -47,7 +47,8 @@ class BookController extends Controller
     public function show($id)
     {
         $book = Book::findOrFail($id);
-        //$book->filepath  = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();   
+        //$book->filepath  = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();  
+        //$comments = $book->comments();  
         return view('readerTemp', compact('book'));
     }
 
